@@ -23,6 +23,7 @@ import { lesson21 } from './lessons/lesson-21';
 import { lesson22 } from './lessons/lesson-22';
 import { lesson23 } from './lessons/lesson-23';
 import { lesson24 } from './lessons/lesson-24';
+import { lesson25 } from './lessons/lesson-25';
 
 export const lessons: Lesson[] = [
   lesson01,
@@ -49,6 +50,7 @@ export const lessons: Lesson[] = [
   lesson22,
   lesson23,
   lesson24,
+  lesson25,
 ];
 
 export function getLessonById(id: string | undefined): Lesson | undefined {

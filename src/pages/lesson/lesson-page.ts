@@ -26,6 +26,7 @@ import '../../components/demos/demo-bootstrap.js';
 import '../../components/demos/demo-vanilla-js.js';
 import '../../components/demos/demo-data-structures.js';
 import '../../components/demos/demo-typescript.js';
+import '../../components/demos/demo-testing.js';
 
 @customElement('lesson-page')
 export class LessonPage extends LitElement {

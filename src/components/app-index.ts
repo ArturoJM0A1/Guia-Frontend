@@ -25,6 +25,28 @@ export class AppIndex extends LitElement {
     this.elementController.subscribe('active-lesson', (data: { id: string; index: number }) => {
       this._activeLesson = data;
     });
+    // Cada navegación resetea el scroll del contenido al principio
+    this.elementController.subscribe('__oc_app', () => {
+      this._scrollContentToTop();
+    });
+  }
+
+  private _scrollContentToTop() {
+    const content = this.renderRoot.querySelector<HTMLElement>('.content');
+    if (content) {
+      content.scrollTop = 0;
+    }
+    window.scrollTo(0, 0);
+  }
+
+  private _goLesson(lessonId: string) {
+    this._closeMenu();
+    // Si ya estamos en esa lección, basta con subir al principio
+    if (this._activeLesson?.id === lessonId) {
+      this._scrollContentToTop();
+      return;
+    }
+    this.elementController.navigate('lesson', { lessonId });
   }
 
   private get _progress(): number {
@@ -288,7 +310,10 @@ export class AppIndex extends LitElement {
                 <a
                   class="nav-link ${this._activeLesson?.id === lesson.id ? 'active' : ''}"
                   href="#!/lesson/${lesson.id}"
-                  @click=${this._closeMenu}
+                  @click=${(e: Event) => {
+                    e.preventDefault();
+                    this._goLesson(lesson.id);
+                  }}
                 >
                   <span class="nav-num">${lesson.index + 1}</span>
                   ${lesson.title}

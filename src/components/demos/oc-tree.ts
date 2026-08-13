@@ -52,7 +52,7 @@ const APP_TREE: TreeNode = {
           children: [
             { name: 'lessons.ts', comment: '# el listado y los getters' },
             { name: 'types.ts' },
-            { name: 'lessons/', children: [{ name: 'lesson-01.ts ... lesson-24.ts' }] },
+            { name: 'lessons/', children: [{ name: 'lesson-01.ts ... lesson-25.ts' }] },
           ],
         },
         { name: 'css/', comment: '# estilos globales', children: [{ name: 'main.css' }] },
