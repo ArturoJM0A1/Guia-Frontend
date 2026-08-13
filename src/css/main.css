@@ -45,6 +45,16 @@ app-index {
   height: 100%;
 }
 
+/* IMPORTANTE — Open Cells marca las plantillas no activas con state="inactive"/"cached"
+   pero NO las quita del DOM (las conserva para reutilizarlas al volver). Sin esta regla,
+   la página anterior (p. ej. home) sigue ocupando espacio y empuja a la lección hacia
+   abajo: al navegar por el menú, el scroll queda sobre la página vieja y el h1 de la
+   lección ni se ve. Esta regla la exige el propio framework (estado active/inactive). */
+#app-content > [state='inactive'],
+#app-content > [state='cached'] {
+  display: none;
+}
+
 button {
   font-family: inherit;
 }

@@ -25,12 +25,22 @@ export class AppIndex extends LitElement {
     this.elementController.subscribe('active-lesson', (data: { id: string; index: number }) => {
       this._activeLesson = data;
     });
-    // Cada navegación resetea el scroll del contenido al principio
+    // IMPORTANTE — Scroll al inicio en cada navegación.
+    // Open Cells publica en el canal '__oc_app' el contexto de la app (página actual, ruta...)
+    // cada vez que cambia la ruta (updateBridgeChannels -> updateAppContext en bridge-channels.js).
+    // Sin esta suscripción, al pasar de una lección larga a otra el scroll del contenedor
+    // '.content' se mantiene y la nueva página parece "no cargar". El prefijo '__oc' viene de
+    // BRIDGE_CHANNEL_PREFIX en constants.js de @open-cells/core: si una versión futura lo cambia,
+    // este nombre de canal debe actualizarse aquí también.
     this.elementController.subscribe('__oc_app', () => {
       this._scrollContentToTop();
     });
   }
 
+  // IMPORTANTE — El scroll se hace sobre el contenedor que realmente desplaza el contenido
+  // ('.content', dentro del Shadow DOM de app-index) y también sobre la ventana por si algún
+  // navegador/contexto solo desplaza una de las dos. Si se cambia la clase '.content' o la
+  // estructura del layout, hay que mantener este selector al día o el scroll dejará de resetearse.
   private _scrollContentToTop() {
     const content = this.renderRoot.querySelector<HTMLElement>('.content');
     if (content) {
@@ -39,9 +49,15 @@ export class AppIndex extends LitElement {
     window.scrollTo(0, 0);
   }
 
+  // IMPORTANTE — La navegación desde el menú debe ser programática, NO un enlace con href directo.
+  // 1) e.preventDefault() evita que el navegador cambie el hash "por su cuenta" y que el router
+  //    de Open Cells lo considere un cambio externo (hashIsDirty).
+  // 2) Si ya estás en la misma lección, el hash no cambia, no salta el evento hashchange y
+  //    onPageEnter NO vuelve a ejecutarse; por eso hay que resetear el scroll manualmente aquí.
+  // 3) Para el resto de casos se navega con elementController.navigate('lesson', { lessonId }),
+  //    que deja que el router cargue la página y publique '__oc_app'.
   private _goLesson(lessonId: string) {
     this._closeMenu();
-    // Si ya estamos en esa lección, basta con subir al principio
     if (this._activeLesson?.id === lessonId) {
       this._scrollContentToTop();
       return;
