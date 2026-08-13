@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "open-cells-desde-cero",
+  "description": "Curso interactivo para aprender Open Cells desde cero, construido con Open Cells",
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@open-cells/core": "^1.2.0",
+    "@open-cells/element-controller": "^1.0.5",
+    "@open-cells/page-controller": "^1.0.5",
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^7.3.1"
+  },
+  "engines": {
+    "node": ">=18.15.0",
+    "npm": ">=7.0.0"
+  }
+}
